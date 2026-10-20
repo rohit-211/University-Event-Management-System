@@ -1,0 +1,62 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>{% block title %}University Event Management System{% endblock %}</title>
+
+    <!-- Global CSS Stylesheet -->
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+
+    <!-- App/Page-specific CSS blocks -->
+    {% block extra_css %}{% endblock %}
+</head>
+<body>
+    <!-- Main Application Header & Navigation Bar -->
+    <header class="site-header">
+        <div class="container nav-container">
+            <a href="{% url 'home' %}" class="brand-logo">
+                <span class="logo-accent">Uni</span>Events
+            </a>
+            <nav class="main-nav">
+                <ul class="nav-links">
+                    <li><a href="{% url 'home' %}">Home</a></li>
+                    <li><a href="{% url 'admin:index' %}" target="_blank">Django Admin</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Global Flash Messages (Info, Success, Warning, Error) -->
+    {% if messages %}
+    <div class="container messages-container">
+        {% for message in messages %}
+        <div class="alert alert-{{ message.tags|default:'info' }}">
+            {{ message }}
+        </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+
+    <!-- Main Dynamic Content Block -->
+    <main class="container main-content">
+        {% block content %}
+        {% endblock %}
+    </main>
+
+    <!-- Application Footer -->
+    <footer class="site-footer">
+        <div class="container footer-content">
+            <p>&copy; {% now "Y" %} University Event Management System (UEMS) &bull; B.Tech Academic Project</p>
+        </div>
+    </footer>
+
+    <!-- Global Vanilla JavaScript -->
+    <script src="{% static 'js/main.js' %}"></script>
+
+    <!-- App/Page-specific JavaScript blocks -->
+    {% block extra_js %}{% endblock %}
+</body>
+</html>

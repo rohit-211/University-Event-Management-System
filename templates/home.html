@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+
+{% block title %}Foundation Ready - University Event Management System{% endblock %}
+
+{% block content %}
+<div class="card foundation-hero">
+    <h1>University Event Management System</h1>
+    <p class="subtitle">5th-Semester B.Tech Project &bull; Foundation Initialized</p>
+
+    <div class="status-badge success-badge">
+        <span class="status-indicator"></span> Project Foundation Successfully Configured
+    </div>
+</div>
+
+<div class="grid-2-col">
+    <div class="card">
+        <h2>Technology Stack</h2>
+        <ul class="spec-list">
+            <li><strong>Backend Framework:</strong> Python Django</li>
+            <li><strong>Database:</strong> PostgreSQL (Configured via .env)</li>
+            <li><strong>Frontend Rendering:</strong> Django Templates (MVT Architecture)</li>
+            <li><strong>Styling & Scripting:</strong> Vanilla CSS &amp; Vanilla JavaScript</li>
+        </ul>
+    </div>
+
+    <div class="card">
+        <h2>Registered Django Apps</h2>
+        <ul class="spec-list">
+            <li><code>accounts</code> &mdash; Authentication, Roles (Student, Organizer, Admin)</li>
+            <li><code>events</code> &mdash; Event Creation, Scheduling, Categories</li>
+            <li><code>registrations</code> &mdash; Student RSVPs &amp; Tickets</li>
+            <li><code>attendance</code> &mdash; Check-ins &amp; Verification</li>
+            <li><code>announcements</code> &mdash; Broadcasts &amp; Notifications</li>
+        </ul>
+    </div>
+</div>
+
+<div class="card setup-notice">
+    <h3>Next Development Steps</h3>
+    <ol class="setup-steps-list">
+        <li>Provide your PostgreSQL database credentials in the <code>.env</code> file.</li>
+        <li>Create the database in PostgreSQL (default: <code>uems_db</code>).</li>
+        <li>Run database migrations: <code>python manage.py migrate</code>.</li>
+        <li>Begin building data models in their respective apps according to project requirements.</li>
+    </ol>
+</div>
+{% endblock %}

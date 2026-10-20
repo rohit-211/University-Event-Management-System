@@ -1,0 +1,6 @@
+# University Event Management System (UEMS)
+# Core Python & Django Dependencies
+
+Django>=5.0,<6.2
+psycopg2-binary>=2.9.9
+python-dotenv>=1.0.0
