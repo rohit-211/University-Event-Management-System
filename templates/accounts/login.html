@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+
+{% block title %}Sign In &bull; University Event Management System{% endblock %}
+
+{% block content %}
+<div class="auth-wrapper">
+    <div class="card auth-card">
+        <div class="auth-header">
+            <div class="auth-icon-circle">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"></path>
+                    <polyline points="10 17 15 12 10 7"></polyline>
+                    <line x1="15" y1="12" x2="3" y2="12"></line>
+                </svg>
+            </div>
+            <h1>Portal Sign In</h1>
+            <p class="subtitle">Access your student, organiser, or admin dashboard</p>
+        </div>
+
+        <form method="POST" action="{% url 'accounts:login' %}" class="auth-form" novalidate>
+            {% csrf_token %}
+            {% if next %}
+                <input type="hidden" name="next" value="{{ next }}">
+            {% endif %}
+
+            <div class="form-group">
+                <label for="id_username" class="form-label">Username / Student ID</label>
+                {{ form.username }}
+                {% if form.username.errors %}
+                    <span class="field-error">{{ form.username.errors.0 }}</span>
+                {% endif %}
+            </div>
+
+            <div class="form-group">
+                <label for="id_password" class="form-label">Password</label>
+                {{ form.password }}
+                {% if form.password.errors %}
+                    <span class="field-error">{{ form.password.errors.0 }}</span>
+                {% endif %}
+            </div>
+
+            <button type="submit" class="btn btn-primary btn-block">Sign In to Account</button>
+        </form>
+
+        <div class="auth-footer">
+            <p>New student? <a href="{% url 'accounts:register' %}">Create student account</a></p>
+            <p><a href="{% url 'home' %}" class="text-muted-link">&larr; Back to Home</a></p>
+        </div>
+    </div>
+</div>
+{% endblock %}

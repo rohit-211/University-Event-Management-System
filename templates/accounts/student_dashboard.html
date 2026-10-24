@@ -1,0 +1,152 @@
+{% extends 'base.html' %}
+
+{% block title %}Student Dashboard &bull; University Event Management System{% endblock %}
+
+{% block content %}
+<div class="dashboard-header">
+    <div class="dashboard-title-area">
+        <span class="user-role-badge role-student">Student Portal</span>
+        <h1>Welcome, {{ user.first_name|default:user.username }}!</h1>
+        <p class="subtitle">View your registered campus events, attendance records, and university notices.</p>
+    </div>
+    <div class="dashboard-quick-actions">
+        <a href="{% url 'accounts:profile' %}" class="btn btn-secondary">Edit Profile</a>
+        <a href="#" class="btn btn-primary">Browse Events</a>
+    </div>
+</div>
+
+<!-- Student Stats Row -->
+<div class="dashboard-stats-grid">
+    <div class="stat-card">
+        <div class="stat-icon stat-icon-blue">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                <line x1="16" y1="2" x2="16" y2="6"></line>
+                <line x1="8" y1="2" x2="8" y2="6"></line>
+                <line x1="3" y1="10" x2="21" y2="10"></line>
+            </svg>
+        </div>
+        <div class="stat-content">
+            <span class="stat-value">{{ registered_events|length }}</span>
+            <span class="stat-label">My Event Registrations</span>
+        </div>
+    </div>
+
+    <div class="stat-card">
+        <div class="stat-icon stat-icon-green">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+                <polyline points="22 4 12 14.01 9 11.01"></polyline>
+            </svg>
+        </div>
+        <div class="stat-content">
+            <span class="stat-value">{{ attendance_records|length }}</span>
+            <span class="stat-label">Attendance Verified</span>
+        </div>
+    </div>
+
+    <div class="stat-card">
+        <div class="stat-icon stat-icon-purple">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
+                <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
+            </svg>
+        </div>
+        <div class="stat-content">
+            <span class="stat-value">{{ announcements|length }}</span>
+            <span class="stat-label">Active Announcements</span>
+        </div>
+    </div>
+</div>
+
+<div class="grid-2-col">
+    <!-- Registered Events Section -->
+    <div class="card">
+        <div class="card-header-flex">
+            <h2>My Registered Events</h2>
+        </div>
+        {% if registered_events %}
+            <ul class="data-list">
+                {% for reg in registered_events %}
+                <li class="data-item">
+                    <div class="data-main">
+                        <strong>{{ reg.event.title|default:"Event" }}</strong>
+                        <span class="data-sub">{{ reg.event.date|default:"Upcoming" }}</span>
+                    </div>
+                    <span class="badge badge-success">{{ reg.status|default:"Confirmed" }}</span>
+                </li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <div class="empty-state">
+                <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                    <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                    <line x1="16" y1="2" x2="16" y2="6"></line>
+                    <line x1="8" y1="2" x2="8" y2="6"></line>
+                    <line x1="3" y1="10" x2="21" y2="10"></line>
+                </svg>
+                <p>You have not registered for any events yet.</p>
+                <span class="text-muted-desc">When you register for workshops, hackathons, or seminars, your tickets will appear here.</span>
+            </div>
+        {% endif %}
+    </div>
+
+    <!-- Attendance History Section -->
+    <div class="card">
+        <div class="card-header-flex">
+            <h2>My Attendance Record</h2>
+        </div>
+        {% if attendance_records %}
+            <ul class="data-list">
+                {% for att in attendance_records %}
+                <li class="data-item">
+                    <div class="data-main">
+                        <strong>{{ att.event.title }}</strong>
+                        <span class="data-sub">{{ att.timestamp|date:"M d, Y H:i" }}</span>
+                    </div>
+                    <span class="badge badge-success">Present</span>
+                </li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <div class="empty-state">
+                <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+                    <polyline points="22 4 12 14.01 9 11.01"></polyline>
+                </svg>
+                <p>No attendance records found.</p>
+                <span class="text-muted-desc">Attend registered events and have your check-in scanned by event organisers to view records here.</span>
+            </div>
+        {% endif %}
+    </div>
+</div>
+
+<!-- University Announcements -->
+<div class="card">
+    <div class="card-header-flex">
+        <h2>Campus Announcements &amp; Broadcasts</h2>
+    </div>
+    {% if announcements %}
+        <ul class="announcement-list">
+            {% for announcement in announcements %}
+            <li class="announcement-item">
+                <div class="announcement-header">
+                    <h4>{{ announcement.title }}</h4>
+                    <span class="announcement-date">{{ announcement.created_at|date:"M d, Y" }}</span>
+                </div>
+                <p class="announcement-content">{{ announcement.content|truncatewords:30 }}</p>
+            </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <div class="empty-state">
+            <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
+                <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
+            </svg>
+            <p>No active announcements at this time.</p>
+            <span class="text-muted-desc">Campus event announcements and updates will be posted here by university staff.</span>
+        </div>
+    {% endif %}
+</div>
+{% endblock %}

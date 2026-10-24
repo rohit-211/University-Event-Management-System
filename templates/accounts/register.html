@@ -1,0 +1,106 @@
+{% extends 'base.html' %}
+
+{% block title %}Student Registration &bull; University Event Management System{% endblock %}
+
+{% block content %}
+<div class="auth-wrapper auth-wrapper-lg">
+    <div class="card auth-card">
+        <div class="auth-header">
+            <div class="auth-icon-circle">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                    <circle cx="8.5" cy="7" r="4"></circle>
+                    <line x1="20" y1="8" x2="20" y2="14"></line>
+                    <line x1="23" y1="11" x2="17" y2="11"></line>
+                </svg>
+            </div>
+            <h1>Student Registration</h1>
+            <p class="subtitle">Create your student account to register for events and track attendance</p>
+        </div>
+
+        <div class="info-banner">
+            <span class="info-badge">Role Notice</span>
+            <p>Self-registration creates a verified <strong>Student</strong> account. Organiser and Administrator roles are assigned by campus event staff.</p>
+        </div>
+
+        <form method="POST" action="{% url 'accounts:register' %}" class="auth-form" novalidate>
+            {% csrf_token %}
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="id_first_name" class="form-label">First Name <span class="required">*</span></label>
+                    {{ form.first_name }}
+                    {% if form.first_name.errors %}
+                        <span class="field-error">{{ form.first_name.errors.0 }}</span>
+                    {% endif %}
+                </div>
+                <div class="form-group">
+                    <label for="id_last_name" class="form-label">Last Name <span class="required">*</span></label>
+                    {{ form.last_name }}
+                    {% if form.last_name.errors %}
+                        <span class="field-error">{{ form.last_name.errors.0 }}</span>
+                    {% endif %}
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="id_username" class="form-label">Username / Student ID <span class="required">*</span></label>
+                    {{ form.username }}
+                    {% if form.username.errors %}
+                        <span class="field-error">{{ form.username.errors.0 }}</span>
+                    {% endif %}
+                </div>
+                <div class="form-group">
+                    <label for="id_email" class="form-label">Email Address <span class="required">*</span></label>
+                    {{ form.email }}
+                    {% if form.email.errors %}
+                        <span class="field-error">{{ form.email.errors.0 }}</span>
+                    {% endif %}
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="id_department" class="form-label">Academic Department</label>
+                    {{ form.department }}
+                    {% if form.department.errors %}
+                        <span class="field-error">{{ form.department.errors.0 }}</span>
+                    {% endif %}
+                </div>
+                <div class="form-group">
+                    <label for="id_phone_number" class="form-label">Contact Phone</label>
+                    {{ form.phone_number }}
+                    {% if form.phone_number.errors %}
+                        <span class="field-error">{{ form.phone_number.errors.0 }}</span>
+                    {% endif %}
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="id_password" class="form-label">Password <span class="required">*</span></label>
+                    {{ form.password }}
+                    {% if form.password.errors %}
+                        <span class="field-error">{{ form.password.errors.0 }}</span>
+                    {% endif %}
+                </div>
+                <div class="form-group">
+                    <label for="id_password_confirm" class="form-label">Confirm Password <span class="required">*</span></label>
+                    {{ form.password_confirm }}
+                    {% if form.password_confirm.errors %}
+                        <span class="field-error">{{ form.password_confirm.errors.0 }}</span>
+                    {% endif %}
+                </div>
+            </div>
+
+            <button type="submit" class="btn btn-primary btn-block">Complete Registration</button>
+        </form>
+
+        <div class="auth-footer">
+            <p>Already have an account? <a href="{% url 'accounts:login' %}">Sign in here</a></p>
+            <p><a href="{% url 'home' %}" class="text-muted-link">&larr; Back to Home</a></p>
+        </div>
+    </div>
+</div>
+{% endblock %}

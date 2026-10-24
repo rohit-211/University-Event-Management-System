@@ -23,7 +23,28 @@
             <nav class="main-nav">
                 <ul class="nav-links">
                     <li><a href="{% url 'home' %}">Home</a></li>
-                    <li><a href="{% url 'admin:index' %}" target="_blank">Django Admin</a></li>
+                    {% if user.is_authenticated %}
+                        <li><a href="{% url 'accounts:dashboard' %}">Dashboard</a></li>
+                        <li><a href="{% url 'accounts:profile' %}">Profile</a></li>
+                        {% if user.is_staff or user.is_superuser %}
+                            <li><a href="{% url 'admin:index' %}" target="_blank">Django Admin</a></li>
+                        {% endif %}
+                        <li class="user-greeting">
+                            <span class="user-role-badge role-{{ user.profile.role|lower|default:'student' }}">
+                                {{ user.profile.get_role_display|default:'User' }}
+                            </span>
+                            <span class="username-tag">{{ user.first_name|default:user.username }}</span>
+                        </li>
+                        <li>
+                            <form method="POST" action="{% url 'accounts:logout' %}" class="inline-logout-form">
+                                {% csrf_token %}
+                                <button type="submit" class="nav-logout-btn">Logout</button>
+                            </form>
+                        </li>
+                    {% else %}
+                        <li><a href="{% url 'accounts:login' %}">Login</a></li>
+                        <li><a href="{% url 'accounts:register' %}" class="nav-register-btn">Register</a></li>
+                    {% endif %}
                 </ul>
             </nav>
         </div>
